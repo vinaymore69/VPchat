@@ -1,0 +1,21 @@
+{
+    "name": "vinay/vpchat",
+    "description": "vinay/vpchat",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vinay\\Vpchat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "y"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
