@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Validate user credentials (assuming a users table in your database)
+    // Validate user credentials
     $stmt = $mysqli->prepare("SELECT id, username, password FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -21,11 +21,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
         
-        // Verify password (assuming passwords are hashed using password_hash())
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['message'] = "Login successful!";
+
+            // Insert login time
+            $user_id = $user['id'];
+            $stmt = $mysqli->prepare("INSERT INTO user_logins (user_id) VALUES (?)");
+            $stmt->bind_param("i", $user_id);
+            $stmt->execute();
+
             header("Location: index.php");
             exit;
         } else {
